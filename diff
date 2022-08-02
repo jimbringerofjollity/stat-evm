@@ -1,0 +1,306 @@
+diff --git a/go.mod b/go.mod
+index 8871406..ceecea7 100644
+--- a/go.mod
++++ b/go.mod
+@@ -6,6 +6,7 @@ require (
+ 	github.com/VictoriaMetrics/fastcache v1.10.0
+ 	github.com/ava-labs/avalanche-network-runner v1.1.4-0.20220713145155-91f8e925868f
+ 	github.com/ava-labs/avalanchego v1.7.16
++	github.com/btcsuite/btcutil v1.0.2
+ 	github.com/cespare/cp v0.1.0
+ 	github.com/creack/pty v1.1.18
+ 	github.com/davecgh/go-spew v1.1.1
+diff --git a/go.sum b/go.sum
+index ffe959d..5b704ac 100644
+--- a/go.sum
++++ b/go.sum
+@@ -93,6 +93,8 @@ github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1/go.mod h1:7SFka0XMvUgj3hfZtyd
+ github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f h1:bAs4lUbRJpnnkd9VhRV3jjAVU7DJVjMaK+IsvSeZvFo=
+ github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f/go.mod h1:TdznJufoqS23FtqVCzL0ZqgP5MqXbb4fg/WgDys70nA=
+ github.com/btcsuite/btcutil v0.0.0-20190425235716-9e5f4b9a998d/go.mod h1:+5NJ2+qvTyV9exUAL/rxXi3DcLg2Ts+ymUAY5y4NvMg=
++github.com/btcsuite/btcutil v1.0.2 h1:9iZ1Terx9fMIOtq1VrwdqfsATL9MC2l8ZrUY6YZ2uts=
++github.com/btcsuite/btcutil v1.0.2/go.mod h1:j9HUFwoQRsZL3V4n+qG+CUnEGHOarIxfC3Le2Yhbcts=
+ github.com/btcsuite/go-socks v0.0.0-20170105172521-4720035b7bfd h1:R/opQEbFEy9JGkIguV40SvRY1uliPX8ifOvi6ICsFCw=
+ github.com/btcsuite/go-socks v0.0.0-20170105172521-4720035b7bfd/go.mod h1:HHNXQzUsZCxOoE+CPiyCTO6x34Zs86zZUiwtpXoGdtg=
+ github.com/btcsuite/goleveldb v0.0.0-20160330041536-7834afc9e8cd/go.mod h1:F+uVaaLLH7j4eDXPRvw78tMflu7Ie2bzYOH4Y8rRKBY=
+@@ -621,6 +623,7 @@ golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529/go.mod h1:yigFU9vqHzYiE8U
+ golang.org/x/crypto v0.0.0-20190605123033-f99c8df09eb5/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
+ golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
+ golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
++golang.org/x/crypto v0.0.0-20200115085410-6d4e4cb37c7d/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
+ golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
+ golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
+ golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad/go.mod h1:jdWPYTVW3xRLrWPugEBEK3UY2ZEsg3UU495nc5E+M+I=
+diff --git a/params/config.go b/params/config.go
+index 8e77b2c..bf8d84d 100644
+--- a/params/config.go
++++ b/params/config.go
+@@ -32,10 +32,11 @@ import (
+ 	"fmt"
+ 	"math/big"
+ 
++	"github.com/ethereum/go-ethereum/common"
++
+ 	"github.com/ava-labs/subnet-evm/commontype"
+ 	"github.com/ava-labs/subnet-evm/precompile"
+ 	"github.com/ava-labs/subnet-evm/utils"
+-	"github.com/ethereum/go-ethereum/common"
+ )
+ 
+ var (
+@@ -88,8 +89,8 @@ var (
+ 		},
+ 	}
+ 
+-	TestChainConfig        = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{big.NewInt(0)}, PrecompileUpgrade{}, UpgradeConfig{}}
+-	TestPreSubnetEVMConfig = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{}, PrecompileUpgrade{}, UpgradeConfig{}}
++	TestChainConfig        = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{big.NewInt(0)}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}}
++	TestPreSubnetEVMConfig = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}}
+ )
+ 
+ // ChainConfig is the core config which determines the blockchain settings.
+@@ -117,9 +118,10 @@ type ChainConfig struct {
+ 	IstanbulBlock       *big.Int `json:"istanbulBlock,omitempty"`       // Istanbul switch block (nil = no fork, 0 = already on istanbul)
+ 	MuirGlacierBlock    *big.Int `json:"muirGlacierBlock,omitempty"`    // Eip-2384 (bomb delay) switch block (nil = no fork, 0 = already activated)
+ 
+-	NetworkUpgrades              // Config for timestamps that enable avalanche network upgrades
+-	PrecompileUpgrade            // Config for enabling precompiles from genesis
+-	UpgradeConfig     `json:"-"` // Config specified in upgradeBytes (avalanche network upgrades or enable/disabling precompiles). Skip encoding/decoding directly into ChainConfig.
++	NetworkUpgrades                                                        // Config for timestamps that enable avalanche network upgrades
++	PrecompileUpgrade                                                      // Config for enabling precompiles from genesis
++	UpgradeConfig                 `json:"-"`                               // Config specified in upgradeBytes (avalanche network upgrades or enable/disabling precompiles). Skip encoding/decoding directly into ChainConfig.
++	ContractXChainECRecoverConfig precompile.ContractXChainECRecoverConfig `json:"contractXChainECRecover,omitempty"` // Config for the contract XChain ECrecover
+ }
+ 
+ // UpgradeConfig includes the following configs that may be specified in upgradeBytes:
+@@ -251,6 +253,10 @@ func (c *ChainConfig) IsFeeConfigManager(blockTimestamp *big.Int) bool {
+ 	return config != nil && !config.Disable
+ }
+ 
++func (c *ChainConfig) IsXChainECRecover(blockTimestamp *big.Int) bool {
++	return utils.IsForked(c.ContractXChainECRecoverConfig.Timestamp(), blockTimestamp)
++}
++
+ // CheckCompatible checks whether scheduled fork transitions have been imported
+ // with a mismatching chain configuration.
+ func (c *ChainConfig) CheckCompatible(newcfg *ChainConfig, height uint64, timestamp uint64) *ConfigCompatError {
+@@ -484,6 +490,8 @@ type Rules struct {
+ 	IsTxAllowListEnabled               bool
+ 	IsFeeConfigManagerEnabled          bool
+ 
++	IsContractXChainECRecoverEnabled bool
++
+ 	// Precompiles maps addresses to stateful precompiled contracts that are enabled
+ 	// for this rule set.
+ 	// Note: none of these addresses should conflict with the address space used by
+@@ -520,6 +528,7 @@ func (c *ChainConfig) AvalancheRules(blockNum, blockTimestamp *big.Int) Rules {
+ 	rules.IsContractNativeMinterEnabled = c.IsContractNativeMinter(blockTimestamp)
+ 	rules.IsTxAllowListEnabled = c.IsTxAllowList(blockTimestamp)
+ 	rules.IsFeeConfigManagerEnabled = c.IsFeeConfigManager(blockTimestamp)
++	rules.IsContractXChainECRecoverEnabled = c.IsXChainECRecover(blockTimestamp)
+ 
+ 	// Initialize the stateful precompiles that should be enabled at [blockTimestamp].
+ 	rules.Precompiles = make(map[common.Address]precompile.StatefulPrecompiledContract)
+diff --git a/params/precompile_config.go b/params/precompile_config.go
+index 25e1f89..0b8d9c9 100644
+--- a/params/precompile_config.go
++++ b/params/precompile_config.go
+@@ -256,6 +256,9 @@ func (c *ChainConfig) EnabledStatefulPrecompiles(blockTimestamp *big.Int) []prec
+ 		}
+ 	}
+ 
++	if c.ContractXChainECRecoverConfig.Timestamp() != nil {
++		statefulPrecompileConfigs = append(statefulPrecompileConfigs, &c.ContractXChainECRecoverConfig)
++	}
+ 	return statefulPrecompileConfigs
+ }
+ 
+diff --git a/precompile/contract_xchain_ecrecover.go b/precompile/contract_xchain_ecrecover.go
+index 800e42d..1db1341 100644
+--- a/precompile/contract_xchain_ecrecover.go
++++ b/precompile/contract_xchain_ecrecover.go
+@@ -1 +1,143 @@
++// (c) 2019-2020, Ava Labs, Inc. All rights reserved.
++// See the file LICENSE for licensing terms.
+ package precompile
++
++import (
++	"crypto/sha256"
++	"math/big"
++
++	"github.com/btcsuite/btcutil/bech32"
++	"github.com/ethereum/go-ethereum/common"
++	"github.com/ethereum/go-ethereum/crypto"
++	"github.com/ethereum/go-ethereum/log"
++	"golang.org/x/crypto/ripemd160"
++)
++
++var (
++	_ StatefulPrecompileConfig = &ContractXChainECRecoverConfig{}
++	// Singleton StatefulPrecompiledContract for XChain ECRecover.
++	ContractXChainECRecoverPrecompile StatefulPrecompiledContract = createXChainECRecoverPrecompile(ContractXchainECRecoverAddress)
++
++	xChainECRecoverReadSignature = CalculateFunctionSelector("getXChainECRecover(bytes32,uint8,bytes32,bytes32)")
++)
++
++// ContractXChainECRecoverConfig uses it to implement the StatefulPrecompileConfig
++type ContractXChainECRecoverConfig struct {
++	BlockTimestamp *big.Int `json:"blockTimestamp"`
++}
++
++// Address returns the address of the XChain ECRecover contract.
++func (c *ContractXChainECRecoverConfig) Address() common.Address {
++	return ContractXchainECRecoverAddress
++}
++
++// Contract returns the singleton stateful precompiled contract to be used for the XChain ECRecover.
++func (c *ContractXChainECRecoverConfig) Contract() StatefulPrecompiledContract {
++	return ContractXChainECRecoverPrecompile
++}
++
++// Configure configures [state] with the desired admins based on [c].
++func (c *ContractXChainECRecoverConfig) Configure(_ ChainConfig, state StateDB, _ BlockContext) {
++
++}
++func (c *ContractXChainECRecoverConfig) Timestamp() *big.Int { return c.BlockTimestamp }
++
++func (c *ContractXChainECRecoverConfig) IsDisabled() bool {
++	return false
++}
++
++// Equal returns true if the provided argument configures the same precompile with the same parameters.
++func (c *ContractXChainECRecoverConfig) Equal(StatefulPrecompileConfig) bool {
++	return false
++}
++
++func allZero(b []byte) bool {
++	for _, byte := range b {
++		if byte != 0 {
++			return false
++		}
++	}
++	return true
++}
++
++// getXChainECRecover returns an execution function that reads the input and return the input from the given [precompileAddr].
++// The execution function parses the input into a string and returns the string
++func getXChainECRecover(precompileAddr common.Address) RunStatefulPrecompileFunc {
++	log.Info("Reached 2 1")
++	return func(evm PrecompileAccessibleState, callerAddr common.Address, addr common.Address, input []byte, suppliedGas uint64, readOnly bool) (ret []byte, remainingGas uint64, err error) {
++		if remainingGas, err = deductGas(suppliedGas, XChainECRecoverCost); err != nil {
++			return nil, 0, err
++		}
++		const ecRecoverInputLength = 128
++
++		input = common.RightPadBytes(input, ecRecoverInputLength)
++
++		// "input" is (hash, v, r, s), each 32 bytes
++		// but for ecrecover we want (r, s, v)
++
++		r := new(big.Int).SetBytes(input[64:96])
++		s := new(big.Int).SetBytes(input[96:128])
++		v := input[63]
++
++		// tighter sig s values input homestead only apply to tx sigs
++		if !allZero(input[32:63]) || !crypto.ValidateSignatureValues(v, r, s, false) {
++			return nil, remainingGas, nil
++		}
++
++		// We must make sure not to modify the 'input', so placing the 'v' along with
++		// the signature needs to be done on a new allocation
++
++		sig := make([]byte, 65)
++		copy(sig, input[64:128])
++		sig[64] = v
++
++		// v needs to be at the end for libsecp256k1
++		pubk, err := crypto.SigToPub(input[:32], sig)
++		publicKey := crypto.CompressPubkey(pubk)
++
++		// make sure the public key is a valid one
++		if err != nil {
++			return nil, remainingGas, nil
++		}
++
++		sha := sha256.Sum256(publicKey)
++		ripemd := ripemd160.New()
++		ripemd.Write(sha[:])
++		ripe := ripemd.Sum(nil)
++
++		conv, err := bech32.ConvertBits(ripe, 8, 5, true)
++		if err != nil {
++			log.Info("Error:", err)
++		}
++		encoded, err := bech32.Encode("fuji", conv)
++		xchain := "X-" + encoded
++		log.Info(xchain)
++
++		if err != nil {
++			log.Info("Error:", err)
++		}
++
++		// To return the x-chain address as a string to Solidity,
++		// the variable must first be padded as follows or it will throw an error.
++
++		xChainLength := len(xchain)
++		out := []byte(string(xchain))
++		zeroArray := [64]byte{}
++		out = append(zeroArray[:], out...)
++		out[31] = 32 //32 is the padding
++		out[63] = byte(xChainLength)
++		out = common.RightPadBytes(out, ecRecoverInputLength)
++
++		return out, remainingGas, nil
++	}
++}
++
++// createXChainECRecoverPrecompile returns a StatefulPrecompiledContract with R/W control of an allow list at [precompileAddr] and a native coin minter.
++func createXChainECRecoverPrecompile(precompileAddr common.Address) StatefulPrecompiledContract {
++	log.Info("Reached 1")
++	funcGetXChainECRecover := newStatefulPrecompileFunction(xChainECRecoverReadSignature, getXChainECRecover(precompileAddr))
++
++	// Construct the contract with no fallback function.
++	contract := newStatefulPrecompileWithFunctionSelectors(nil, []*statefulPrecompileFunction{funcGetXChainECRecover})
++	return contract
++}
+diff --git a/precompile/params.go b/precompile/params.go
+index 4174464..5c4a4fc 100644
+--- a/precompile/params.go
++++ b/precompile/params.go
+@@ -13,6 +13,7 @@ import (
+ const (
+ 	writeGasCostPerSlot = 20_000
+ 	readGasCostPerSlot  = 5_000
++	XChainECRecoverCost = 10_000
+ 
+ 	ModifyAllowListGasCost = writeGasCostPerSlot
+ 	ReadAllowListGasCost   = readGasCostPerSlot
+@@ -40,12 +41,14 @@ var (
+ 	ContractNativeMinterAddress      = common.HexToAddress("0x0200000000000000000000000000000000000001")
+ 	TxAllowListAddress               = common.HexToAddress("0x0200000000000000000000000000000000000002")
+ 	FeeConfigManagerAddress          = common.HexToAddress("0x0200000000000000000000000000000000000003")
++	ContractXchainECRecoverAddress   = common.HexToAddress("0x0300000000000000000000000000000000000000")
+ 
+ 	UsedAddresses = []common.Address{
+ 		ContractDeployerAllowListAddress,
+ 		ContractNativeMinterAddress,
+ 		TxAllowListAddress,
+ 		FeeConfigManagerAddress,
++		ContractXchainECRecoverAddress,
+ 	}
+ 	reservedRanges = []AddressRange{
+ 		{
+diff --git a/scripts/run.sh b/scripts/run.sh
+index f9a0190..088df74 100755
+--- a/scripts/run.sh
++++ b/scripts/run.sh
+@@ -123,6 +123,9 @@ if [[ ${E2E} != true ]]; then
+       "maxBlockGasCost": 10000000,
+       "targetBlockRate": 2,
+       "blockGasCostStep": 500000
++    },
++    "contractXChainECRecover": {
++      "blockTimestamp": 0
+     }
+   },
+   "alloc": {
