@@ -4,19 +4,18 @@
 pragma solidity >=0.8.0;
 
 interface Median {
-    function getMedian() external view returns (bytes32);
+    function getMedian(uint256 v1, uint256 v2, uint256 v3) external view returns (uint256);
 }
 
 contract Test {
-    bytes32 public last;
+    uint256 public last;
 
     event Debug(string message, bytes32 res);
 
     Median prec = Median(0x0300000000000000000000000000000000000001);
 
-    function testMe() public {
-        //last = prec.getMedian();
-        prec.getMedian();
+    function testMe(uint256 v1, uint256 v2, uint256 v3) public {
+        last = prec.getMedian(v1, v2, v3);
 //        emit Debug("testMe()", last);
     }
 }

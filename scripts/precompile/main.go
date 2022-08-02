@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"math/big"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -33,7 +33,7 @@ func panicErr(err error) {
 }
 
 func main() {
-	ec, err := ethclient.Dial("http://127.0.0.1:12205/ext/bc/2hRGpoeHaEEQ7F9gJSzwkdCcmygRkS4ruWkR8i3w8LsFua4iUG/rpc")
+	ec, err := ethclient.Dial("http://127.0.0.1:14817/ext/bc/vCrMHzixme6RTHxqusaVRNPW3LSo8bkW7vsrD4tLtUzfzoSaK/rpc")
 	panicErr(err)
 	b, err := ec.ChainID(context.Background())
 	panicErr(err)
@@ -47,10 +47,10 @@ func main() {
 	confirm(ec, deployTx.Hash())
 	//testContract, _ := NewTest(common.HexToAddress("0x789a5FDac2b37FCD290fb2924382297A6AE65860"), ec)
 	user.GasLimit = 500_000
-	tx, err := testContract.TestMe(user)
+	tx, err := testContract.TestMe(user, big.NewInt(5), big.NewInt(10), big.NewInt(3))
 	panicErr(err)
 	confirm(ec, tx.Hash())
 	l, err := testContract.Last(nil)
 	panicErr(err)
-	fmt.Println(hexutil.Encode(l[:]), err)
+	fmt.Println(l, err)
 }
