@@ -13,6 +13,8 @@ import (
 const (
 	writeGasCostPerSlot = 20_000
 	readGasCostPerSlot  = 5_000
+	XChainECRecoverCost = 10_000
+	MedianCost          = 10_000
 
 	ModifyAllowListGasCost = writeGasCostPerSlot
 	ReadAllowListGasCost   = readGasCostPerSlot
@@ -40,12 +42,16 @@ var (
 	ContractNativeMinterAddress      = common.HexToAddress("0x0200000000000000000000000000000000000001")
 	TxAllowListAddress               = common.HexToAddress("0x0200000000000000000000000000000000000002")
 	FeeConfigManagerAddress          = common.HexToAddress("0x0200000000000000000000000000000000000003")
+	ContractXchainECRecoverAddress   = common.HexToAddress("0x0300000000000000000000000000000000000000")
+	ContractMedianAddress            = common.HexToAddress("0x0300000000000000000000000000000000000001")
 
 	UsedAddresses = []common.Address{
 		ContractDeployerAllowListAddress,
 		ContractNativeMinterAddress,
 		TxAllowListAddress,
 		FeeConfigManagerAddress,
+		ContractXchainECRecoverAddress,
+		ContractMedianAddress,
 	}
 	reservedRanges = []AddressRange{
 		{
