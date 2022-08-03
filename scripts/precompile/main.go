@@ -47,7 +47,7 @@ func main() {
 	confirm(ec, deployTx.Hash())
 	//testContract, _ := NewTest(common.HexToAddress("0x789a5FDac2b37FCD290fb2924382297A6AE65860"), ec)
 	user.GasLimit = 500_000
-	tx, err := testContract.TestMe(user, []*big.Int{big.NewInt(5), big.NewInt(10), big.NewInt(3)})
+	tx, err := testContract.TestMe(user, []*big.Int{big.NewInt(5), big.NewInt(10), big.NewInt(3), big.NewInt(7), big.NewInt(12)})
 	panicErr(err)
 	confirm(ec, tx.Hash())
 	l, err := testContract.Med(nil)

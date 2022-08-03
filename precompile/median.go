@@ -84,7 +84,7 @@ func getMedian(evm PrecompileAccessibleState,
 	sort.Slice(vals, func(i, j int) bool {
 		return vals[i].Cmp(vals[j]) == -1
 	})
-	med := vals[len(valsI)/2]
+	med := vals[len(vals)/2]
 	ret, err = MakeRetArgs().PackValues([]interface{}{med})
 	if err != nil {
 		return nil, suppliedGas, err
