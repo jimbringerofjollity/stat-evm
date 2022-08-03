@@ -28,120 +28,120 @@ var (
 	_ = event.NewSubscription
 )
 
-// MedianMetaData contains all meta data concerning the Median contract.
-var MedianMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"}],\"name\":\"getMedian\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+// FitMetaData contains all meta data concerning the Fit contract.
+var FitMetaData = &bind.MetaData{
+	ABI: "[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v4\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v5\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v6\",\"type\":\"uint256\"}],\"name\":\"getFit\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 	Sigs: map[string]string{
-		"d96539a0": "getMedian(uint256,uint256,uint256)",
+		"aba95e3b": "getFit(uint256,uint256,uint256,uint256,uint256,uint256)",
 	},
 }
 
-// MedianABI is the input ABI used to generate the binding from.
-// Deprecated: Use MedianMetaData.ABI instead.
-var MedianABI = MedianMetaData.ABI
+// FitABI is the input ABI used to generate the binding from.
+// Deprecated: Use FitMetaData.ABI instead.
+var FitABI = FitMetaData.ABI
 
-// Deprecated: Use MedianMetaData.Sigs instead.
-// MedianFuncSigs maps the 4-byte function signature to its string representation.
-var MedianFuncSigs = MedianMetaData.Sigs
+// Deprecated: Use FitMetaData.Sigs instead.
+// FitFuncSigs maps the 4-byte function signature to its string representation.
+var FitFuncSigs = FitMetaData.Sigs
 
-// Median is an auto generated Go binding around an Ethereum contract.
-type Median struct {
-	MedianCaller     // Read-only binding to the contract
-	MedianTransactor // Write-only binding to the contract
-	MedianFilterer   // Log filterer for contract events
+// Fit is an auto generated Go binding around an Ethereum contract.
+type Fit struct {
+	FitCaller     // Read-only binding to the contract
+	FitTransactor // Write-only binding to the contract
+	FitFilterer   // Log filterer for contract events
 }
 
-// MedianCaller is an auto generated read-only Go binding around an Ethereum contract.
-type MedianCaller struct {
+// FitCaller is an auto generated read-only Go binding around an Ethereum contract.
+type FitCaller struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MedianTransactor is an auto generated write-only Go binding around an Ethereum contract.
-type MedianTransactor struct {
+// FitTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type FitTransactor struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MedianFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
-type MedianFilterer struct {
+// FitFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+type FitFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MedianSession is an auto generated Go binding around an Ethereum contract,
+// FitSession is an auto generated Go binding around an Ethereum contract,
 // with pre-set call and transact options.
-type MedianSession struct {
-	Contract     *Median           // Generic contract binding to set the session for
+type FitSession struct {
+	Contract     *Fit              // Generic contract binding to set the session for
 	CallOpts     bind.CallOpts     // Call options to use throughout this session
 	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
 }
 
-// MedianCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// FitCallerSession is an auto generated read-only Go binding around an Ethereum contract,
 // with pre-set call options.
-type MedianCallerSession struct {
-	Contract *MedianCaller // Generic contract caller binding to set the session for
+type FitCallerSession struct {
+	Contract *FitCaller    // Generic contract caller binding to set the session for
 	CallOpts bind.CallOpts // Call options to use throughout this session
 }
 
-// MedianTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// FitTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
 // with pre-set transact options.
-type MedianTransactorSession struct {
-	Contract     *MedianTransactor // Generic contract transactor binding to set the session for
+type FitTransactorSession struct {
+	Contract     *FitTransactor    // Generic contract transactor binding to set the session for
 	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
 }
 
-// MedianRaw is an auto generated low-level Go binding around an Ethereum contract.
-type MedianRaw struct {
-	Contract *Median // Generic contract binding to access the raw methods on
+// FitRaw is an auto generated low-level Go binding around an Ethereum contract.
+type FitRaw struct {
+	Contract *Fit // Generic contract binding to access the raw methods on
 }
 
-// MedianCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
-type MedianCallerRaw struct {
-	Contract *MedianCaller // Generic read-only contract binding to access the raw methods on
+// FitCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type FitCallerRaw struct {
+	Contract *FitCaller // Generic read-only contract binding to access the raw methods on
 }
 
-// MedianTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
-type MedianTransactorRaw struct {
-	Contract *MedianTransactor // Generic write-only contract binding to access the raw methods on
+// FitTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type FitTransactorRaw struct {
+	Contract *FitTransactor // Generic write-only contract binding to access the raw methods on
 }
 
-// NewMedian creates a new instance of Median, bound to a specific deployed contract.
-func NewMedian(address common.Address, backend bind.ContractBackend) (*Median, error) {
-	contract, err := bindMedian(address, backend, backend, backend)
+// NewFit creates a new instance of Fit, bound to a specific deployed contract.
+func NewFit(address common.Address, backend bind.ContractBackend) (*Fit, error) {
+	contract, err := bindFit(address, backend, backend, backend)
 	if err != nil {
 		return nil, err
 	}
-	return &Median{MedianCaller: MedianCaller{contract: contract}, MedianTransactor: MedianTransactor{contract: contract}, MedianFilterer: MedianFilterer{contract: contract}}, nil
+	return &Fit{FitCaller: FitCaller{contract: contract}, FitTransactor: FitTransactor{contract: contract}, FitFilterer: FitFilterer{contract: contract}}, nil
 }
 
-// NewMedianCaller creates a new read-only instance of Median, bound to a specific deployed contract.
-func NewMedianCaller(address common.Address, caller bind.ContractCaller) (*MedianCaller, error) {
-	contract, err := bindMedian(address, caller, nil, nil)
+// NewFitCaller creates a new read-only instance of Fit, bound to a specific deployed contract.
+func NewFitCaller(address common.Address, caller bind.ContractCaller) (*FitCaller, error) {
+	contract, err := bindFit(address, caller, nil, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &MedianCaller{contract: contract}, nil
+	return &FitCaller{contract: contract}, nil
 }
 
-// NewMedianTransactor creates a new write-only instance of Median, bound to a specific deployed contract.
-func NewMedianTransactor(address common.Address, transactor bind.ContractTransactor) (*MedianTransactor, error) {
-	contract, err := bindMedian(address, nil, transactor, nil)
+// NewFitTransactor creates a new write-only instance of Fit, bound to a specific deployed contract.
+func NewFitTransactor(address common.Address, transactor bind.ContractTransactor) (*FitTransactor, error) {
+	contract, err := bindFit(address, nil, transactor, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &MedianTransactor{contract: contract}, nil
+	return &FitTransactor{contract: contract}, nil
 }
 
-// NewMedianFilterer creates a new log filterer instance of Median, bound to a specific deployed contract.
-func NewMedianFilterer(address common.Address, filterer bind.ContractFilterer) (*MedianFilterer, error) {
-	contract, err := bindMedian(address, nil, nil, filterer)
+// NewFitFilterer creates a new log filterer instance of Fit, bound to a specific deployed contract.
+func NewFitFilterer(address common.Address, filterer bind.ContractFilterer) (*FitFilterer, error) {
+	contract, err := bindFit(address, nil, nil, filterer)
 	if err != nil {
 		return nil, err
 	}
-	return &MedianFilterer{contract: contract}, nil
+	return &FitFilterer{contract: contract}, nil
 }
 
-// bindMedian binds a generic wrapper to an already deployed contract.
-func bindMedian(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
-	parsed, err := abi.JSON(strings.NewReader(MedianABI))
+// bindFit binds a generic wrapper to an already deployed contract.
+func bindFit(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
+	parsed, err := abi.JSON(strings.NewReader(FitABI))
 	if err != nil {
 		return nil, err
 	}
@@ -152,46 +152,46 @@ func bindMedian(address common.Address, caller bind.ContractCaller, transactor b
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Median *MedianRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
-	return _Median.Contract.MedianCaller.contract.Call(opts, result, method, params...)
+func (_Fit *FitRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+	return _Fit.Contract.FitCaller.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Median *MedianRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Median.Contract.MedianTransactor.contract.Transfer(opts)
+func (_Fit *FitRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Fit.Contract.FitTransactor.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Median *MedianRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Median.Contract.MedianTransactor.contract.Transact(opts, method, params...)
+func (_Fit *FitRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _Fit.Contract.FitTransactor.contract.Transact(opts, method, params...)
 }
 
 // Call invokes the (constant) contract method with params as input values and
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Median *MedianCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
-	return _Median.Contract.contract.Call(opts, result, method, params...)
+func (_Fit *FitCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+	return _Fit.Contract.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Median *MedianTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Median.Contract.contract.Transfer(opts)
+func (_Fit *FitTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Fit.Contract.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Median *MedianTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Median.Contract.contract.Transact(opts, method, params...)
+func (_Fit *FitTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _Fit.Contract.contract.Transact(opts, method, params...)
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetFit is a free data retrieval call binding the contract method 0xaba95e3b.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianCaller) GetMedian(opts *bind.CallOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
+// Solidity: function getFit(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) view returns(uint256)
+func (_Fit *FitCaller) GetFit(opts *bind.CallOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*big.Int, error) {
 	var out []interface{}
-	err := _Median.contract.Call(opts, &out, "getMedian", v1, v2, v3)
+	err := _Fit.contract.Call(opts, &out, "getFit", v1, v2, v3, v4, v5, v6)
 
 	if err != nil {
 		return *new(*big.Int), err
@@ -203,28 +203,28 @@ func (_Median *MedianCaller) GetMedian(opts *bind.CallOpts, v1 *big.Int, v2 *big
 
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetFit is a free data retrieval call binding the contract method 0xaba95e3b.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianSession) GetMedian(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
-	return _Median.Contract.GetMedian(&_Median.CallOpts, v1, v2, v3)
+// Solidity: function getFit(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) view returns(uint256)
+func (_Fit *FitSession) GetFit(v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*big.Int, error) {
+	return _Fit.Contract.GetFit(&_Fit.CallOpts, v1, v2, v3, v4, v5, v6)
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetFit is a free data retrieval call binding the contract method 0xaba95e3b.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianCallerSession) GetMedian(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
-	return _Median.Contract.GetMedian(&_Median.CallOpts, v1, v2, v3)
+// Solidity: function getFit(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) view returns(uint256)
+func (_Fit *FitCallerSession) GetFit(v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*big.Int, error) {
+	return _Fit.Contract.GetFit(&_Fit.CallOpts, v1, v2, v3, v4, v5, v6)
 }
 
 // TestMetaData contains all meta data concerning the Test contract.
 var TestMetaData = &bind.MetaData{
-	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"message\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"res\",\"type\":\"bytes32\"}],\"name\":\"Debug\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"last\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"}],\"name\":\"testMe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"message\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"res\",\"type\":\"bytes32\"}],\"name\":\"Debug\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"last\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v4\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v5\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v6\",\"type\":\"uint256\"}],\"name\":\"testMe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 	Sigs: map[string]string{
 		"47799da8": "last()",
-		"1cfd459f": "testMe(uint256,uint256,uint256)",
+		"5a7c4229": "testMe(uint256,uint256,uint256,uint256,uint256,uint256)",
 	},
-	Bin: "0x6080604052600180546001600160a01b03191673030000000000000000000000000000000000000117905534801561003657600080fd5b50610169806100466000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80631cfd459f1461003b57806347799da814610050575b600080fd5b61004e6100493660046100ee565b61006b565b005b61005960005481565b60405190815260200160405180910390f35b6001546040516306cb29cd60e51b81526004810185905260248101849052604481018390526001600160a01b039091169063d96539a090606401602060405180830381865afa1580156100c2573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100e6919061011a565b600055505050565b60008060006060848603121561010357600080fd5b505081359360208301359350604090920135919050565b60006020828403121561012c57600080fd5b505191905056fea264697066735822122062e132cfa74f539673e2e8f9a07a477a67913b4552f7d5924454c0c4aea6b99664736f6c634300080f0033",
+	Bin: "0x6080604052600180546001600160a01b03191673030000000000000000000000000000000000000117905534801561003657600080fd5b50610198806100466000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806347799da81461003b5780635a7c422914610056575b600080fd5b61004460005481565b60405190815260200160405180910390f35b610069610064366004610106565b61006b565b005b60015460405163aba95e3b60e01b8152600481018890526024810187905260448101869052606481018590526084810184905260a481018390526001600160a01b039091169063aba95e3b9060c401602060405180830381865afa1580156100d7573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100fb9190610149565b600055505050505050565b60008060008060008060c0878903121561011f57600080fd5b505084359660208601359650604086013595606081013595506080810135945060a0013592509050565b60006020828403121561015b57600080fd5b505191905056fea2646970667358221220d166f74017985dbd4896ee37afa506d33ad1ef41421ae310f0555b0c7e4a047864736f6c634300080f0033",
 }
 
 // TestABI is the input ABI used to generate the binding from.
@@ -429,25 +429,25 @@ func (_Test *TestCallerSession) Last() (*big.Int, error) {
 	return _Test.Contract.Last(&_Test.CallOpts)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x5a7c4229.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestTransactor) TestMe(opts *bind.TransactOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.contract.Transact(opts, "testMe", v1, v2, v3)
+// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) returns()
+func (_Test *TestTransactor) TestMe(opts *bind.TransactOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*types.Transaction, error) {
+	return _Test.contract.Transact(opts, "testMe", v1, v2, v3, v4, v5, v6)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x5a7c4229.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3)
+// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) returns()
+func (_Test *TestSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*types.Transaction, error) {
+	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3, v4, v5, v6)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x5a7c4229.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestTransactorSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3)
+// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3, uint256 v4, uint256 v5, uint256 v6) returns()
+func (_Test *TestTransactorSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int, v4 *big.Int, v5 *big.Int, v6 *big.Int) (*types.Transaction, error) {
+	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3, v4, v5, v6)
 }
 
 // TestDebugIterator is returned from FilterDebug and is used to iterate over the raw logs and unpacked data for Debug events raised by the Test contract.
