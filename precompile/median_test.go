@@ -4,15 +4,14 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/require"
 )
 
 func TestMedian(t *testing.T) {
-	a, err := MakeArgs().PackValues([]interface{}{big.NewInt(10), big.NewInt(2), big.NewInt(3)})
+	input, err := MakeArgs().Pack([]*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)})
 	require.NoError(t, err)
-	t.Log(hexutil.Encode(a[:]))
-	vls, err := MakeArgs().UnpackValues(a)
+	med, _, err := getMedian(nil, common.Address{}, common.Address{}, input, 100_000, true)
 	require.NoError(t, err)
-	t.Log(vls)
+	t.Log(med)
 }

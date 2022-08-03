@@ -30,9 +30,9 @@ var (
 
 // MedianMetaData contains all meta data concerning the Median contract.
 var MedianMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"}],\"name\":\"getMedian\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"v1\",\"type\":\"uint256[]\"}],\"name\":\"getMedian\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 	Sigs: map[string]string{
-		"d96539a0": "getMedian(uint256,uint256,uint256)",
+		"e8787f41": "getMedian(uint256[])",
 	},
 }
 
@@ -186,12 +186,12 @@ func (_Median *MedianTransactorRaw) Transact(opts *bind.TransactOpts, method str
 	return _Median.Contract.contract.Transact(opts, method, params...)
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetMedian is a free data retrieval call binding the contract method 0xe8787f41.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianCaller) GetMedian(opts *bind.CallOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
+// Solidity: function getMedian(uint256[] v1) view returns(uint256)
+func (_Median *MedianCaller) GetMedian(opts *bind.CallOpts, v1 []*big.Int) (*big.Int, error) {
 	var out []interface{}
-	err := _Median.contract.Call(opts, &out, "getMedian", v1, v2, v3)
+	err := _Median.contract.Call(opts, &out, "getMedian", v1)
 
 	if err != nil {
 		return *new(*big.Int), err
@@ -203,28 +203,28 @@ func (_Median *MedianCaller) GetMedian(opts *bind.CallOpts, v1 *big.Int, v2 *big
 
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetMedian is a free data retrieval call binding the contract method 0xe8787f41.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianSession) GetMedian(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
-	return _Median.Contract.GetMedian(&_Median.CallOpts, v1, v2, v3)
+// Solidity: function getMedian(uint256[] v1) view returns(uint256)
+func (_Median *MedianSession) GetMedian(v1 []*big.Int) (*big.Int, error) {
+	return _Median.Contract.GetMedian(&_Median.CallOpts, v1)
 }
 
-// GetMedian is a free data retrieval call binding the contract method 0xd96539a0.
+// GetMedian is a free data retrieval call binding the contract method 0xe8787f41.
 //
-// Solidity: function getMedian(uint256 v1, uint256 v2, uint256 v3) view returns(uint256)
-func (_Median *MedianCallerSession) GetMedian(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*big.Int, error) {
-	return _Median.Contract.GetMedian(&_Median.CallOpts, v1, v2, v3)
+// Solidity: function getMedian(uint256[] v1) view returns(uint256)
+func (_Median *MedianCallerSession) GetMedian(v1 []*big.Int) (*big.Int, error) {
+	return _Median.Contract.GetMedian(&_Median.CallOpts, v1)
 }
 
 // TestMetaData contains all meta data concerning the Test contract.
 var TestMetaData = &bind.MetaData{
-	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"message\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"res\",\"type\":\"bytes32\"}],\"name\":\"Debug\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"last\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"v1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v2\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"v3\",\"type\":\"uint256\"}],\"name\":\"testMe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[],\"name\":\"med\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"vals\",\"type\":\"uint256[]\"}],\"name\":\"testMe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 	Sigs: map[string]string{
-		"47799da8": "last()",
-		"1cfd459f": "testMe(uint256,uint256,uint256)",
+		"cd53c747": "med()",
+		"517cd0b3": "testMe(uint256[])",
 	},
-	Bin: "0x6080604052600180546001600160a01b03191673030000000000000000000000000000000000000117905534801561003657600080fd5b50610169806100466000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80631cfd459f1461003b57806347799da814610050575b600080fd5b61004e6100493660046100ee565b61006b565b005b61005960005481565b60405190815260200160405180910390f35b6001546040516306cb29cd60e51b81526004810185905260248101849052604481018390526001600160a01b039091169063d96539a090606401602060405180830381865afa1580156100c2573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100e6919061011a565b600055505050565b60008060006060848603121561010357600080fd5b505081359360208301359350604090920135919050565b60006020828403121561012c57600080fd5b505191905056fea264697066735822122062e132cfa74f539673e2e8f9a07a477a67913b4552f7d5924454c0c4aea6b99664736f6c634300080f0033",
+	Bin: "0x6080604052600180546001600160a01b03191673030000000000000000000000000000000000000117905534801561003657600080fd5b50610249806100466000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063517cd0b31461003b578063cd53c74714610050575b600080fd5b61004e6100493660046100f8565b61006b565b005b61005960005481565b60405190815260200160405180910390f35b60015460405163e8787f4160e01b81526001600160a01b039091169063e8787f419061009b9084906004016101b6565b602060405180830381865afa1580156100b8573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100dc91906101fa565b60005550565b634e487b7160e01b600052604160045260246000fd5b6000602080838503121561010b57600080fd5b823567ffffffffffffffff8082111561012357600080fd5b818501915085601f83011261013757600080fd5b813581811115610149576101496100e2565b8060051b604051601f19603f8301168101818110858211171561016e5761016e6100e2565b60405291825284820192508381018501918883111561018c57600080fd5b938501935b828510156101aa57843584529385019392850192610191565b98975050505050505050565b6020808252825182820181905260009190848201906040850190845b818110156101ee578351835292840192918401916001016101d2565b50909695505050505050565b60006020828403121561020c57600080fd5b505191905056fea264697066735822122051d8afcf870d2655cba0124e02b39aae0aaa5f86cc9018138e315d3b7bfcbf6364736f6c634300080f0033",
 }
 
 // TestABI is the input ABI used to generate the binding from.
@@ -398,12 +398,12 @@ func (_Test *TestTransactorRaw) Transact(opts *bind.TransactOpts, method string,
 	return _Test.Contract.contract.Transact(opts, method, params...)
 }
 
-// Last is a free data retrieval call binding the contract method 0x47799da8.
+// Med is a free data retrieval call binding the contract method 0xcd53c747.
 //
-// Solidity: function last() view returns(uint256)
-func (_Test *TestCaller) Last(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function med() view returns(uint256)
+func (_Test *TestCaller) Med(opts *bind.CallOpts) (*big.Int, error) {
 	var out []interface{}
-	err := _Test.contract.Call(opts, &out, "last")
+	err := _Test.contract.Call(opts, &out, "med")
 
 	if err != nil {
 		return *new(*big.Int), err
@@ -415,173 +415,38 @@ func (_Test *TestCaller) Last(opts *bind.CallOpts) (*big.Int, error) {
 
 }
 
-// Last is a free data retrieval call binding the contract method 0x47799da8.
+// Med is a free data retrieval call binding the contract method 0xcd53c747.
 //
-// Solidity: function last() view returns(uint256)
-func (_Test *TestSession) Last() (*big.Int, error) {
-	return _Test.Contract.Last(&_Test.CallOpts)
+// Solidity: function med() view returns(uint256)
+func (_Test *TestSession) Med() (*big.Int, error) {
+	return _Test.Contract.Med(&_Test.CallOpts)
 }
 
-// Last is a free data retrieval call binding the contract method 0x47799da8.
+// Med is a free data retrieval call binding the contract method 0xcd53c747.
 //
-// Solidity: function last() view returns(uint256)
-func (_Test *TestCallerSession) Last() (*big.Int, error) {
-	return _Test.Contract.Last(&_Test.CallOpts)
+// Solidity: function med() view returns(uint256)
+func (_Test *TestCallerSession) Med() (*big.Int, error) {
+	return _Test.Contract.Med(&_Test.CallOpts)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x517cd0b3.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestTransactor) TestMe(opts *bind.TransactOpts, v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.contract.Transact(opts, "testMe", v1, v2, v3)
+// Solidity: function testMe(uint256[] vals) returns()
+func (_Test *TestTransactor) TestMe(opts *bind.TransactOpts, vals []*big.Int) (*types.Transaction, error) {
+	return _Test.contract.Transact(opts, "testMe", vals)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x517cd0b3.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3)
+// Solidity: function testMe(uint256[] vals) returns()
+func (_Test *TestSession) TestMe(vals []*big.Int) (*types.Transaction, error) {
+	return _Test.Contract.TestMe(&_Test.TransactOpts, vals)
 }
 
-// TestMe is a paid mutator transaction binding the contract method 0x1cfd459f.
+// TestMe is a paid mutator transaction binding the contract method 0x517cd0b3.
 //
-// Solidity: function testMe(uint256 v1, uint256 v2, uint256 v3) returns()
-func (_Test *TestTransactorSession) TestMe(v1 *big.Int, v2 *big.Int, v3 *big.Int) (*types.Transaction, error) {
-	return _Test.Contract.TestMe(&_Test.TransactOpts, v1, v2, v3)
-}
-
-// TestDebugIterator is returned from FilterDebug and is used to iterate over the raw logs and unpacked data for Debug events raised by the Test contract.
-type TestDebugIterator struct {
-	Event *TestDebug // Event containing the contract specifics and raw log
-
-	contract *bind.BoundContract // Generic contract to use for unpacking event data
-	event    string              // Event name to use for unpacking event data
-
-	logs chan types.Log        // Log channel receiving the found contract events
-	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whether the subscription completed delivering logs
-	fail error                 // Occurred error to stop iteration
-}
-
-// Next advances the iterator to the subsequent event, returning whether there
-// are any more events found. In case of a retrieval or parsing error, false is
-// returned and Error() can be queried for the exact failure.
-func (it *TestDebugIterator) Next() bool {
-	// If the iterator failed, stop iterating
-	if it.fail != nil {
-		return false
-	}
-	// If the iterator completed, deliver directly whatever's available
-	if it.done {
-		select {
-		case log := <-it.logs:
-			it.Event = new(TestDebug)
-			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-				it.fail = err
-				return false
-			}
-			it.Event.Raw = log
-			return true
-
-		default:
-			return false
-		}
-	}
-	// Iterator still in progress, wait for either a data or an error event
-	select {
-	case log := <-it.logs:
-		it.Event = new(TestDebug)
-		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-			it.fail = err
-			return false
-		}
-		it.Event.Raw = log
-		return true
-
-	case err := <-it.sub.Err():
-		it.done = true
-		it.fail = err
-		return it.Next()
-	}
-}
-
-// Error returns any retrieval or parsing error occurred during filtering.
-func (it *TestDebugIterator) Error() error {
-	return it.fail
-}
-
-// Close terminates the iteration process, releasing any pending underlying
-// resources.
-func (it *TestDebugIterator) Close() error {
-	it.sub.Unsubscribe()
-	return nil
-}
-
-// TestDebug represents a Debug event raised by the Test contract.
-type TestDebug struct {
-	Message string
-	Res     [32]byte
-	Raw     types.Log // Blockchain specific contextual infos
-}
-
-// FilterDebug is a free log retrieval operation binding the contract event 0x9b727ad7a6d995527744fb3b7ccd68fd2d4a769c01209e041e1014abd3518113.
-//
-// Solidity: event Debug(string message, bytes32 res)
-func (_Test *TestFilterer) FilterDebug(opts *bind.FilterOpts) (*TestDebugIterator, error) {
-
-	logs, sub, err := _Test.contract.FilterLogs(opts, "Debug")
-	if err != nil {
-		return nil, err
-	}
-	return &TestDebugIterator{contract: _Test.contract, event: "Debug", logs: logs, sub: sub}, nil
-}
-
-// WatchDebug is a free log subscription operation binding the contract event 0x9b727ad7a6d995527744fb3b7ccd68fd2d4a769c01209e041e1014abd3518113.
-//
-// Solidity: event Debug(string message, bytes32 res)
-func (_Test *TestFilterer) WatchDebug(opts *bind.WatchOpts, sink chan<- *TestDebug) (event.Subscription, error) {
-
-	logs, sub, err := _Test.contract.WatchLogs(opts, "Debug")
-	if err != nil {
-		return nil, err
-	}
-	return event.NewSubscription(func(quit <-chan struct{}) error {
-		defer sub.Unsubscribe()
-		for {
-			select {
-			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
-				event := new(TestDebug)
-				if err := _Test.contract.UnpackLog(event, "Debug", log); err != nil {
-					return err
-				}
-				event.Raw = log
-
-				select {
-				case sink <- event:
-				case err := <-sub.Err():
-					return err
-				case <-quit:
-					return nil
-				}
-			case err := <-sub.Err():
-				return err
-			case <-quit:
-				return nil
-			}
-		}
-	}), nil
-}
-
-// ParseDebug is a log parse operation binding the contract event 0x9b727ad7a6d995527744fb3b7ccd68fd2d4a769c01209e041e1014abd3518113.
-//
-// Solidity: event Debug(string message, bytes32 res)
-func (_Test *TestFilterer) ParseDebug(log types.Log) (*TestDebug, error) {
-	event := new(TestDebug)
-	if err := _Test.contract.UnpackLog(event, "Debug", log); err != nil {
-		return nil, err
-	}
-	event.Raw = log
-	return event, nil
+// Solidity: function testMe(uint256[] vals) returns()
+func (_Test *TestTransactorSession) TestMe(vals []*big.Int) (*types.Transaction, error) {
+	return _Test.Contract.TestMe(&_Test.TransactOpts, vals)
 }
 

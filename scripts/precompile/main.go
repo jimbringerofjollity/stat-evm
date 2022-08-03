@@ -33,7 +33,7 @@ func panicErr(err error) {
 }
 
 func main() {
-	ec, err := ethclient.Dial("http://127.0.0.1:14817/ext/bc/vCrMHzixme6RTHxqusaVRNPW3LSo8bkW7vsrD4tLtUzfzoSaK/rpc")
+	ec, err := ethclient.Dial("http://127.0.0.1:19534/ext/bc/2Y1dBKB5FGKNpcd9Sm4K6PRvPcj4xkYDp2aAq7pvwgm2khAcSL/rpc")
 	panicErr(err)
 	b, err := ec.ChainID(context.Background())
 	panicErr(err)
@@ -47,10 +47,10 @@ func main() {
 	confirm(ec, deployTx.Hash())
 	//testContract, _ := NewTest(common.HexToAddress("0x789a5FDac2b37FCD290fb2924382297A6AE65860"), ec)
 	user.GasLimit = 500_000
-	tx, err := testContract.TestMe(user, big.NewInt(5), big.NewInt(10), big.NewInt(3))
+	tx, err := testContract.TestMe(user, []*big.Int{big.NewInt(5), big.NewInt(10), big.NewInt(3)})
 	panicErr(err)
 	confirm(ec, tx.Hash())
-	l, err := testContract.Last(nil)
+	l, err := testContract.Med(nil)
 	panicErr(err)
 	fmt.Println(l, err)
 }
