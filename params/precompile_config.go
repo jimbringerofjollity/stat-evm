@@ -53,11 +53,11 @@ func (p *PrecompileUpgrade) getByKey(key precompileKey) (precompile.StatefulPrec
 }
 
 // VerifyPrecompileUpgrades checks [c.PrecompileUpgrades] is well formed:
-// - [upgrades] must specify exactly one key per PrecompileUpgrade
-// - the specified blockTimestamps must monotonically increase
-// - the specified blockTimestamps must be compatible with those
-//   specified in the chainConfig by genesis.
-// - check a precompile is disabled before it is re-enabled
+//   - [upgrades] must specify exactly one key per PrecompileUpgrade
+//   - the specified blockTimestamps must monotonically increase
+//   - the specified blockTimestamps must be compatible with those
+//     specified in the chainConfig by genesis.
+//   - check a precompile is disabled before it is re-enabled
 func (c *ChainConfig) VerifyPrecompileUpgrades() error {
 	var lastBlockTimestamp *big.Int
 	for i, upgrade := range c.PrecompileUpgrades {
@@ -261,6 +261,7 @@ func (c *ChainConfig) EnabledStatefulPrecompiles(blockTimestamp *big.Int) []prec
 		statefulPrecompileConfigs = append(statefulPrecompileConfigs, &c.ContractMedianConfig)
 		statefulPrecompileConfigs = append(statefulPrecompileConfigs, &c.ContractSamplerConfig)
 		statefulPrecompileConfigs = append(statefulPrecompileConfigs, &c.ContractMatrixMultConfig)
+		statefulPrecompileConfigs = append(statefulPrecompileConfigs, &c.ContractMomentConfig)
 	}
 	return statefulPrecompileConfigs
 }

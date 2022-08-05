@@ -19,8 +19,9 @@ import (
 func confirm(ec *ethclient.Client, txHash common.Hash) {
 	for {
 		_, pending, err2 := ec.TransactionByHash(context.Background(), txHash)
-		fmt.Println("Pending:", pending)
-		fmt.Println("Error:", err2)
+		panicErr(err2)
+		// fmt.Println("Pending:", pending)
+		// fmt.Println("Error:", err2)
 		if !pending {
 			receipt, err3 := ec.TransactionReceipt(context.Background(), txHash)
 			fmt.Println(err3, receipt.GasUsed)
@@ -60,7 +61,7 @@ func start_events(ec *ethclient.Client, addr common.Address) {
 }
 
 func main() {
-	ec, err := ethclient.Dial("http://127.0.0.1:11987/ext/bc/Vf9noCc7xT5viKRcvhhxK9JQ2LzVn1FLWU4uzGgwso99cybXu/rpc")
+	ec, err := ethclient.Dial("http://127.0.0.1:26270/ext/bc/2XRqZXY2zzDGoSycDpv1vqqsgkezgaiVBHHofupetotdLS5kCn/rpc")
 	panicErr(err)
 
 	b, err := ec.ChainID(context.Background())
@@ -75,7 +76,7 @@ func main() {
 	addr, deployTx, testContract, err := DeployMain(user, ec)
 	panicErr(err)
 
-	fmt.Println("address", addr)
+	fmt.Println("contract address", addr)
 
 	confirm(ec, deployTx.Hash())
 
@@ -83,7 +84,7 @@ func main() {
 	tx, err := testContract.TestMedian(user, []*big.Int{big.NewInt(5), big.NewInt(10), big.NewInt(3), big.NewInt(7), big.NewInt(12)})
 	panicErr(err)
 	confirm(ec, tx.Hash())
-	fmt.Println("Tx hash (median):", tx.Hash())
+	// fmt.Println("Tx hash (median):", tx.Hash())
 	l, err := testContract.Med(nil)
 	panicErr(err)
 	fmt.Println("median", l, err)
@@ -91,11 +92,20 @@ func main() {
 	sampler_tx, err := testContract.TestSampler(user, big.NewInt(1), big.NewInt(1000000000000000000))
 	panicErr(err)
 	confirm(ec, sampler_tx.Hash())
-	fmt.Println("Tx hash (sampler):", sampler_tx.Hash())
+	// fmt.Println("Tx hash (sampler):", sampler_tx.Hash())
 
 	sampler_res, err := testContract.Sample(nil)
 	panicErr(err)
 	fmt.Println("sample result", sampler_res, err)
+
+	moment_tx, err := testContract.TestMoment(user, big.NewInt(1), big.NewInt(1000000000000000000))
+	panicErr(err)
+	confirm(ec, moment_tx.Hash())
+	// fmt.Println("Tx hash (moment_tx):", moment_tx.Hash())
+
+	moment_res, err := testContract.Moment(nil)
+	panicErr(err)
+	fmt.Println("moment result", moment_res, err)
 
 	var a [][]*big.Int
 	for i := 0; i < 1; i++ {
@@ -108,8 +118,8 @@ func main() {
 	matrix_tx, err := testContract.TestMatrixMult(user, a, b2)
 	panicErr(err)
 	confirm(ec, matrix_tx.Hash())
-	fmt.Println("Tx hash (matrix):", matrix_tx.Hash())
+	// fmt.Println("Tx hash (matrix):", matrix_tx.Hash())
 	vals, err := testContract.GetMatrixMulti(nil)
 	panicErr(err)
-	fmt.Println(vals)
+	fmt.Println("Matrix results", vals)
 }
