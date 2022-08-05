@@ -89,8 +89,8 @@ var (
 		},
 	}
 
-	TestChainConfig        = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{big.NewInt(0)}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}, precompile.ContractMedianConfig{}}
-	TestPreSubnetEVMConfig = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}, precompile.ContractMedianConfig{}}
+	TestChainConfig        = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{big.NewInt(0)}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}, precompile.ContractMedianConfig{}, precompile.ContractSamplerConfig{}, precompile.ContractMatrixMultConfig{}}
+	TestPreSubnetEVMConfig = &ChainConfig{big.NewInt(1), DefaultFeeConfig, false, big.NewInt(0), big.NewInt(0), common.Hash{}, big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), big.NewInt(0), NetworkUpgrades{}, PrecompileUpgrade{}, UpgradeConfig{}, precompile.ContractXChainECRecoverConfig{}, precompile.ContractMedianConfig{}, precompile.ContractSamplerConfig{}, precompile.ContractMatrixMultConfig{}}
 )
 
 // ChainConfig is the core config which determines the blockchain settings.
@@ -122,7 +122,9 @@ type ChainConfig struct {
 	PrecompileUpgrade                                                      // Config for enabling precompiles from genesis
 	UpgradeConfig                 `json:"-"`                               // Config specified in upgradeBytes (avalanche network upgrades or enable/disabling precompiles). Skip encoding/decoding directly into ChainConfig.
 	ContractXChainECRecoverConfig precompile.ContractXChainECRecoverConfig `json:"contractXChainECRecover,omitempty"` // Config for the contract XChain ECrecover
-	ContractMedianConfig          precompile.ContractMedianConfig          `json:"contractMedian,omitempty"`          // Config for the contract XChain ECrecover
+	ContractMedianConfig          precompile.ContractMedianConfig          `json:"contractMedian,omitempty"`          // Config for the median precompile contract
+	ContractSamplerConfig         precompile.ContractSamplerConfig         `json:"contractSampler,omitempty"`         // Config for the sampler precompile contract
+	ContractMatrixMultConfig      precompile.ContractMatrixMultConfig      `json:"contractMatrixMult,omitempty"`      // Config for the sampler precompile contract
 }
 
 // UpgradeConfig includes the following configs that may be specified in upgradeBytes:
@@ -260,6 +262,14 @@ func (c *ChainConfig) IsXChainECRecover(blockTimestamp *big.Int) bool {
 
 func (c *ChainConfig) IsMedian(blockTimestamp *big.Int) bool {
 	return utils.IsForked(c.ContractMedianConfig.Timestamp(), blockTimestamp)
+}
+
+func (c *ChainConfig) IsSampler(blockTimestamp *big.Int) bool {
+	return utils.IsForked(c.ContractSamplerConfig.Timestamp(), blockTimestamp)
+}
+
+func (c *ChainConfig) IsMatrixMult(blockTimestamp *big.Int) bool {
+	return utils.IsForked(c.ContractMatrixMultConfig.Timestamp(), blockTimestamp)
 }
 
 // CheckCompatible checks whether scheduled fork transitions have been imported
@@ -497,6 +507,8 @@ type Rules struct {
 
 	IsContractXChainECRecoverEnabled bool
 	IsContractMedianEnabled          bool
+	IsContractSamplerEnabled         bool
+	IsContractMatrixMultEnabled      bool
 
 	// Precompiles maps addresses to stateful precompiled contracts that are enabled
 	// for this rule set.
@@ -536,6 +548,8 @@ func (c *ChainConfig) AvalancheRules(blockNum, blockTimestamp *big.Int) Rules {
 	rules.IsFeeConfigManagerEnabled = c.IsFeeConfigManager(blockTimestamp)
 	rules.IsContractXChainECRecoverEnabled = c.IsXChainECRecover(blockTimestamp)
 	rules.IsContractMedianEnabled = c.IsMedian(blockTimestamp)
+	rules.IsContractSamplerEnabled = c.IsSampler(blockTimestamp)
+	rules.IsContractMatrixMultEnabled = c.IsMatrixMult(blockTimestamp)
 
 	// Initialize the stateful precompiles that should be enabled at [blockTimestamp].
 	rules.Precompiles = make(map[common.Address]precompile.StatefulPrecompiledContract)

@@ -129,6 +129,12 @@ if [[ ${E2E} != true ]]; then
     },
     "contractMedian": {
       "blockTimestamp": 0
+    },
+    "contractSampler": {
+      "blockTimestamp": 0
+    },
+    "contractMatrixMult": {
+      "blockTimestamp": 0
     }
   },
   "alloc": {

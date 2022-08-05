@@ -38,8 +38,6 @@ func (c ContractMedianConfig) Contract() StatefulPrecompiledContract {
 }
 
 var (
-	_ StatefulPrecompileConfig = &ContractXChainECRecoverConfig{}
-	// Singleton StatefulPrecompiledContract for XChain ECRecover.
 	ContractMedianPrecompile StatefulPrecompiledContract = createMedianPrecompile(ContractMedianAddress)
 	medianSignature                                      = crypto.Keccak256([]byte("getMedian(uint256[])"))[:4]
 )
@@ -59,7 +57,6 @@ func MakeArgs() abi.Arguments {
 }
 
 func MakeRetArgs() abi.Arguments {
-	//cocos,taste of thai express,sangcan indian
 	return abi.Arguments{
 		{
 			Name: "ret",
@@ -93,8 +90,7 @@ func getMedian(evm PrecompileAccessibleState,
 }
 
 func createMedianPrecompile(precompileAddr common.Address) StatefulPrecompiledContract {
-	funcGetXChainECRecover := newStatefulPrecompileFunction(medianSignature, getMedian)
 	// Construct the contract with no fallback function.
-	contract := newStatefulPrecompileWithFunctionSelectors(nil, []*statefulPrecompileFunction{funcGetXChainECRecover})
+	contract := newStatefulPrecompileWithFunctionSelectors(nil, []*statefulPrecompileFunction{newStatefulPrecompileFunction(medianSignature, getMedian)})
 	return contract
 }
