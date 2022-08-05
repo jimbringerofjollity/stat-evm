@@ -40,7 +40,7 @@ var (
 	_ StatefulPrecompileConfig = &ContractXChainECRecoverConfig{}
 	// Singleton StatefulPrecompiledContract for XChain ECRecover.
 	ContractFitPrecompile StatefulPrecompiledContract = createFitPrecompile(ContractFitAddress)
-	fitSignature                                      = CalculateFunctionSelector("getFit(uint256,uint256,uint256,uint256,uint256,uint256)")
+	fitSignature                                      = CalculateFunctionSelector("getFit(uint256[])")
 )
 
 func mustType(ts string) abi.Type {
@@ -51,28 +51,8 @@ func mustType(ts string) abi.Type {
 func MakeArgs() abi.Arguments {
 	return abi.Arguments{
 		{
-			Name: "v1",
-			Type: mustType("uint256"),
-		},
-		{
-			Name: "v2",
-			Type: mustType("uint256"),
-		},
-		{
-			Name: "v3",
-			Type: mustType("uint256"),
-		},
-		{
-			Name: "v4",
-			Type: mustType("uint256"),
-		},
-		{
-			Name: "v5",
-			Type: mustType("uint256"),
-		},
-		{
-			Name: "v6",
-			Type: mustType("uint256"),
+			Name: "vals",
+			Type: mustType("uint256[]"),
 		},
 	}
 }
@@ -101,65 +81,41 @@ func createFitPrecompile(precompileAddr common.Address) StatefulPrecompiledContr
 		copy(inputCopy, input)
 		var errb [32]byte
 		errb[31] = 0xaa
-		vals, err := MakeArgs().UnpackValues(inputCopy)
+		valsI, err := MakeArgs().UnpackValues(inputCopy)
 		if err != nil {
 			return errb[:], suppliedGas, err
 		}
-		if len(vals) != 6 {
-			return errb[:], suppliedGas, errors.New("invalid vals")
-		}
-		v1, ok := vals[0].(*big.Int)
+		vals, ok := valsI[0].([]*big.Int)
 		if !ok {
-			return errb[:], suppliedGas, errors.New("invalid val")
+			return errb[:], suppliedGas, errors.New("invalid type")
 		}
-		v2, ok := vals[1].(*big.Int)
-		if !ok {
-			return nil, suppliedGas, errors.New("invalid val")
+		if len(vals)%2 != 0 {
+			return errb[:], suppliedGas, errors.New("invalid parity of len(vals)")
 		}
-		v3, ok := vals[2].(*big.Int)
-		if !ok {
-			return nil, suppliedGas, errors.New("invalid val")
-		}
-		v4, ok := vals[3].(*big.Int)
-		if !ok {
-			return nil, suppliedGas, errors.New("invalid val")
-		}
-		v5, ok := vals[4].(*big.Int)
-		if !ok {
-			return nil, suppliedGas, errors.New("invalid val")
-		}
-		v6, ok := vals[5].(*big.Int)
-		if !ok {
-			return nil, suppliedGas, errors.New("invalid val")
-		}
-		// valsI := []*big.Int{v1, v2, v3, v4, v5, v6}
 		xys3 := big.NewInt(0)
-		addend := big.NewInt(0)
-		addend.Mul(v1, v2)
-		xys3.Add(xys3, addend)
-		addend.Mul(v3, v4)
-		xys3.Add(xys3, addend)
-		addend.Mul(v5, v6)
-		xys3.Add(xys3, addend)
+		for j := 0; j < len(vals); j += 2 {
+			addend := big.NewInt(0)
+			addend.Mul(vals[j], vals[j+1])
+			xys3.Add(xys3, addend)
+		}
 		xys3.Mul(xys3, big.NewInt(3))
 		xsys := big.NewInt(0)
 		xs := big.NewInt(0)
 		ys := big.NewInt(0)
-		xs.Add(v1, v3)
-		xs.Add(xs, v5)
-		ys.Add(v2, v4)
-		ys.Add(ys, v6)
+		for j := 0; j < len(vals); j += 2 {
+			xs.Add(xs, vals[j])
+			ys.Add(ys, vals[j+1])
+		}
 		xsys.Mul(xs, ys)
 		num := big.NewInt(0)
 		num.Sub(xys3, xsys)
 		denom := big.NewInt(0)
 		x2s3 := big.NewInt(0)
-		addend.Mul(v1, v1)
-		x2s3.Add(x2s3, addend)
-		addend.Mul(v3, v3)
-		x2s3.Add(x2s3, addend)
-		addend.Mul(v5, v5)
-		x2s3.Add(x2s3, addend)
+		for j := 0; j < len(vals); j += 2 {
+			addend := big.NewInt(0)
+			addend.Mul(vals[j], vals[j])
+			x2s3.Add(x2s3, addend)
+		}
 		x2s3.Mul(x2s3, big.NewInt(3))
 		xs2 := big.NewInt(0)
 		xs2.Mul(xs, xs)
