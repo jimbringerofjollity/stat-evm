@@ -2,6 +2,7 @@ package precompile
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 	"testing"
 
@@ -10,14 +11,24 @@ import (
 )
 
 func TestSampler(t *testing.T) {
-	// a, err := MakeSamplerArgs().PackValues([]interface{}{big.NewInt(0), big.NewInt(1)})
-	for i := 0; i < 10; i++ {
-		a, err := MakeSamplerArgs().PackValues([]interface{}{big.NewInt(0), big.NewInt(100000)})
-		require.NoError(t, err)
-		ret, _, err := sample(nil, common.Address{}, common.Address{}, a, 0, false)
-		require.NoError(t, err)
-		vals, err := MakeRetArgs().UnpackValues(ret)
-		require.NoError(t, err)
-		fmt.Println("unpacked values", vals[0].(*big.Int).String())
+	distributionType := big.NewInt(1) // 0 = uniform, 1 = normal, 2 = binomial, 3 = beta
+	min := big.NewInt(0)
+	max := big.NewInt(1 * int64(math.Pow(10, 18)))
+	numSamples := big.NewInt(5)
+
+	a, err := MakeSamplerArgs().PackValues([]interface{}{distributionType, min, max, numSamples})
+	require.NoError(t, err)
+
+	ret, _, err := sampleRandomNumber(nil, common.Address{}, common.Address{}, a, 0, false)
+	require.NoError(t, err)
+
+	vals, err := MakeSamplerReturnArgs().UnpackValues(ret)
+	require.NoError(t, err)
+
+	for _, returnValue := range vals {
+		values := returnValue.([]*big.Int)
+		for i, value := range values {
+			fmt.Println("Data at", i, ":", value)
+		}
 	}
 }
