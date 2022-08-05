@@ -3,10 +3,12 @@ package precompile
 import (
 	"errors"
 	"fmt"
+	"math/big"
+
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"math/big"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
 type ContractFitConfig struct {
@@ -37,10 +39,8 @@ func (c ContractFitConfig) Contract() StatefulPrecompiledContract {
 }
 
 var (
-	_ StatefulPrecompileConfig = &ContractXChainECRecoverConfig{}
-	// Singleton StatefulPrecompiledContract for XChain ECRecover.
 	ContractFitPrecompile StatefulPrecompiledContract = createFitPrecompile(ContractFitAddress)
-	fitSignature                                      = CalculateFunctionSelector("getFit(uint256[])")
+	fitSignature = crypto.Keccak256([]byte("getFit(uint256[])"))[:4] // Should be fit(uint256[][],uint256[][],string)
 )
 
 func mustType(ts string) abi.Type {
@@ -48,7 +48,7 @@ func mustType(ts string) abi.Type {
 	return ty
 }
 
-func MakeArgs() abi.Arguments {
+func MakeFitArgs() abi.Arguments {
 	return abi.Arguments{
 		{
 			Name: "vals",
@@ -57,8 +57,7 @@ func MakeArgs() abi.Arguments {
 	}
 }
 
-func MakeRetArgs() abi.Arguments {
-	//cocos,taste of thai express,sangcan indian
+func MakeFitRetArgs() abi.Arguments {
 	return abi.Arguments{
 		{
 			Name: "ret",
@@ -71,20 +70,23 @@ func createFitPrecompile(precompileAddr common.Address) StatefulPrecompiledContr
 	f := func(
 		evm PrecompileAccessibleState,
 		callerAddr common.Address,
-		addr common.Address, input []byte, suppliedGas uint64, readOnly bool) (retb []byte, remainingGas uint64, err error) {
-		//var b [32]byte
-		//b[31] = 0xaa
-		//return b[:], suppliedGas, nil
-		//log.Info("Info:", hexutil.Encode(input))
+		addr common.Address,
+		input []byte,
+		suppliedGas uint64,
+		readOnly bool,
+	) (retb []byte, remainingGas uint64, err error) {
 		fmt.Println("input", hexutil.Encode(input))
 		inputCopy := make([]byte, len(input))
 		copy(inputCopy, input)
+
 		var errb [32]byte
 		errb[31] = 0xaa
-		valsI, err := MakeArgs().UnpackValues(inputCopy)
+
+		valsI, err := MakeFitArgs().UnpackValues(inputCopy)
 		if err != nil {
 			return errb[:], suppliedGas, err
 		}
+
 		vals, ok := valsI[0].([]*big.Int)
 		if !ok {
 			return errb[:], suppliedGas, errors.New("invalid type")
@@ -92,6 +94,7 @@ func createFitPrecompile(precompileAddr common.Address) StatefulPrecompiledContr
 		if len(vals)%2 != 0 {
 			return errb[:], suppliedGas, errors.New("invalid parity of len(vals)")
 		}
+		
 		xys3 := big.NewInt(0)
 		for j := 0; j < len(vals); j += 2 {
 			addend := big.NewInt(0)
@@ -125,14 +128,15 @@ func createFitPrecompile(precompileAddr common.Address) StatefulPrecompiledContr
 		perc.Div(perc, denom)
 		// fitb := 100 * (3*(v1*v2+v3*v4+v5*v6) - (v1+v3+v5)*(v2+v4+v6)) / (3*(v1*v1+v3*v3+v5*v5) - (v1+v3+v5)*(v1+v3+v5))
 		// fita := 100*(v2+v4+v6)/3 - fitb*(v1+v3+v5)/3
-		retb, err = MakeRetArgs().PackValues([]interface{}{perc})
+		retb, err = MakeFitRetArgs().PackValues([]interface{}{perc})
 		if err != nil {
 			return errb[:], suppliedGas, err
 		}
+
 		return retb, suppliedGas, nil
 	}
-	funcGetXChainECRecover := newStatefulPrecompileFunction(fitSignature, f)
-	// Construct the contract with no fallback function.
-	contract := newStatefulPrecompileWithFunctionSelectors(nil, []*statefulPrecompileFunction{funcGetXChainECRecover})
-	return contract
+
+	funcGetFit := newStatefulPrecompileFunction(fitSignature, f)
+	// Return the contract with no fallback function.
+	return newStatefulPrecompileWithFunctionSelectors(nil, []*statefulPrecompileFunction{funcGetFit})
 }
