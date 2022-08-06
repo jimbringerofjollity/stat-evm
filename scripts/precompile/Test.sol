@@ -5,7 +5,12 @@ interface Median {
     function getMedian(uint256[] memory v1) external view returns (uint256);
 }
 interface Sampler {
-    function getSample(uint256 v1, uint256 v2) external view returns (int256);
+    function sampleRandomNumber(
+        uint256 distributionType,
+        int256 a,
+        int256 b,
+        uint256 numSamples
+    ) external view returns (int256[] calldata); // TODO: Should this be `memory`?
 }
 interface Moment {
     function getMoment(uint256 v1, uint256[] memory v2, uint256[] memory v3) external view returns (uint256);
@@ -18,7 +23,9 @@ contract Test {
     uint256 public med;
     int256 public sample;
     uint256 public moment;
+    int256[] public sample;
     int256[][] product;
+    
     event Debug(string message, int256 res);
     Median prec = Median(0x0300000000000000000000000000000000000001);
     Sampler sampler = Sampler(0x0300000000000000000000000000000000000004);
@@ -29,8 +36,12 @@ contract Test {
         med = prec.getMedian(vals);
     }
     
-    function testSampler(uint256 v1, uint256 v2) public {
-        sample = sampler.getSample(v1, v2);
+    function testSampler(uint256 distributionType, int256 a, int256 b, uint256 numSamples) public {
+        sample = sampler.sampleRandomNumber(distributionType, a, b, numSamples);
+    }
+
+    function getLastSample() public view returns (int256[] memory) {
+        return sample;
     }
 
     function testMoment(uint256 v1,uint256[] memory v2, uint256[] memory v3) public {

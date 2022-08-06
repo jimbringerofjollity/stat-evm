@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
@@ -14,6 +15,11 @@ import (
 )
 
 var functionSignatureRegex = regexp.MustCompile(`[\w]+\(((([\w]+)?)|((([\w]+),)+([\w]+)))\)`)
+
+func mustType(ts string) abi.Type {
+	ty, _ := abi.NewType(ts, "", nil)
+	return ty
+}
 
 // CalculateFunctionSelector returns the 4 byte function selector that results from [functionSignature]
 // Ex. the function setBalance(addr address, balance uint256) should be passed in as the string:
