@@ -42,12 +42,7 @@ var (
 	medianSignature                                      = crypto.Keccak256([]byte("getMedian(uint256[])"))[:4]
 )
 
-func mustType(ts string) abi.Type {
-	ty, _ := abi.NewType(ts, "", nil)
-	return ty
-}
-
-func MakeArgs() abi.Arguments {
+func MakeMedianArgs() abi.Arguments {
 	return abi.Arguments{
 		{
 			Name: "vals",
@@ -65,27 +60,37 @@ func MakeRetArgs() abi.Arguments {
 	}
 }
 
-func getMedian(evm PrecompileAccessibleState,
+func getMedian(
+	evm PrecompileAccessibleState,
 	callerAddr common.Address,
-	addr common.Address, input []byte, suppliedGas uint64, readOnly bool) (ret []byte, remainingGas uint64, err error) {
+	addr common.Address,
+	input []byte,
+	suppliedGas uint64,
+	readOnly bool,
+) (ret []byte, remainingGas uint64, err error) {
 	inputCopy := make([]byte, len(input))
 	copy(inputCopy, input)
-	valsI, err := MakeArgs().UnpackValues(inputCopy)
+
+	valsI, err := MakeMedianArgs().UnpackValues(inputCopy)
 	if err != nil {
 		return nil, suppliedGas, err
 	}
+
 	vals, ok := valsI[0].([]*big.Int)
 	if !ok {
 		return nil, suppliedGas, errors.New("invalid type")
 	}
+
 	sort.Slice(vals, func(i, j int) bool {
 		return vals[i].Cmp(vals[j]) == -1
 	})
 	med := vals[len(vals)/2]
+
 	ret, err = MakeRetArgs().PackValues([]interface{}{med})
 	if err != nil {
 		return nil, suppliedGas, err
 	}
+
 	return ret, suppliedGas, nil
 }
 

@@ -5,7 +5,12 @@ interface Median {
     function getMedian(uint256[] memory v1) external view returns (uint256);
 }
 interface Sampler {
-    function getSample(uint256 v1, uint256 v2) external view returns (int256);
+    function sampleRandomNumber(
+        uint256 distributionType,
+        int256 a,
+        int256 b,
+        uint256 numSamples
+    ) external view returns (int256[] calldata); // TODO: Should this be `memory`?
 }
 interface MatrixMult{
     function matrixMultiply(int256[][] memory a, int256[][] memory b) external view returns (int256[][] memory);
@@ -13,7 +18,7 @@ interface MatrixMult{
 
 contract Test {
     uint256 public med;
-    int256 public sample;
+    int256[] public sample;
     int256[][] product;
     event Debug(string message, int256 res);
     Median prec = Median(0x0300000000000000000000000000000000000001);
@@ -24,8 +29,12 @@ contract Test {
         med = prec.getMedian(vals);
     }
     
-    function testSampler(uint256 v1, uint256 v2) public {
-        sample = sampler.getSample(v1, v2);
+    function testSampler(uint256 distributionType, int256 a, int256 b, uint256 numSamples) public {
+        sample = sampler.sampleRandomNumber(distributionType, a, b, numSamples);
+    }
+
+    function getLastSample() public view returns (int256[] memory) {
+        return sample;
     }
 
     function testMatrixMult(int256[][] memory a, int256[][] memory b) public {
