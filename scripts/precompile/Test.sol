@@ -21,7 +21,6 @@ interface MatrixMult{
 
 contract Test {
     uint256 public med;
-    int256 public sample;
     uint256 public moment;
     int256[] public sample;
     int256[][] product;
